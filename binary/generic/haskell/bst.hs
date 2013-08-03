@@ -62,4 +62,14 @@ treeInsert x (Node y t0 t1)
  | x == y = error "Duplicate entry"
 
 
+-- ===================
+-- treeSearch
+-- ===================
+
+treeSearch x Nil = False
+treeSearch x (Node y t0 t1)
+ | x < y = treeSearch x t0
+ | x > y = treeSearch x t1
+ | x == y = True
+
 
