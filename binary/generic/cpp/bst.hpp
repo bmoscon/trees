@@ -58,6 +58,18 @@ public:
   {
     freeTree(root);
   }
+
+  template <class S, class T>
+  struct Node {
+    Node() : key(NULL), data(NULL), left(NULL), right(NULL) {}
+    Node(const S &k, const T &d) : key(k), data(d), left(NULL), right(NULL) {}
+    Node(const S &k, const T &d, Node<S,T> *l, Node<S,T> *r) : key(k), data(d), left(l), right(r) {}
+    
+    S key;
+    T data;
+    Node<S,T> *left;
+    Node<S,T> *right;
+  };
   
   void insert(K &key, D &data)
   {
@@ -110,10 +122,10 @@ public:
     std::cout << std::endl;
   }
 
-  K leastCommonAncestor(const K &k1, const K &k2) const
+  const Node<K,D>* leastCommonAncestor(const K &k1, const K &k2) const
   {
     if (!root || root->key == k1 || root->key == k2) {
-      return (K());
+      return (NULL);
     }
 
     return(LCA(root, k1, k2));
@@ -121,19 +133,6 @@ public:
     
   
 private:
-  template <class S, class T>
-  struct Node {
-    Node() : key(NULL), data(NULL), left(NULL), right(NULL) {}
-    Node(const S &k, const T &d) : key(k), data(d), left(NULL), right(NULL) {}
-    Node(const S &k, const T &d, Node<S,T> *l, Node<S,T> *r) : key(k), data(d), left(l), right(r) {}
-    
-    S key;
-    T data;
-    Node<S,T> *left;
-    Node<S,T> *right;
-  };
-
-  
   void inOrder(const Node<K,D> *n) const
   {
     if (n) {
@@ -181,10 +180,10 @@ private:
     }
   }
 
-  K LCA(const Node<K,D> *n, const K &k1, const K &k2) const 
+  const Node<K,D>* LCA(const Node<K,D> *n, const K &k1, const K &k2) const 
   {
     if (!n) {
-      return (K());
+      return (NULL);
     }
 
     if (std::max(k1, k2) < n->key) {
@@ -192,7 +191,7 @@ private:
     } else if (std::min(k1, k2) > n->key) {
       return (LCA(n->right, k1, k2));
     } else {
-      return (n->key);
+      return (n);
     }
   }
 
